@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUYME - גיפט קארד</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --pink-light: #fce8e8;
+            --pink-bg: #f9d8d8;
+            --hot-pink: #e91e8c;
+            --dark: #1a1a1a;
+            --gray: #666;
+            --light-gray: #f5f5f5;
+            --border: #e8e8e8;
+            --white: #fff;
+            --gold: #c9a84c;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: var(--pink-bg);
+            background-image: radial-gradient(ellipse at 20% 20%, #f5c5c5 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, #f0d0d0 0%, transparent 50%);
+            min-height: 100vh;
+            color: var(--dark);
+            direction: rtl;
+        }
+
+            /* Background texture */
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e8a0a0' fill-opacity='0.08'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                pointer-events: none;
+                z-index: 0;
+            }
+
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 0 40px;
+        }
+
+        /* ── Gift Card ── */
+        .gift-card-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 0 20px 20px;
+            animation: floatIn 0.6s ease both;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gift-card {
+            width: 300px;
+            height: 190px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 40%, #111 100%);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .gift-card:hover {
+                transform: translateY(-4px) rotate(-1deg);
+                box-shadow: 0 28px 70px rgba(0,0,0,0.4), 0 6px 20px rgba(0,0,0,0.25);
+            }
+
+        .gift-card__stars {
+            position: absolute;
+            inset: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--gold);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .star-1 {
+            width: 80px;
+            height: 80px;
+            bottom: -10px;
+            left: 60px;
+            opacity: 0.7;
+        }
+
+        .star-2 {
+            width: 55px;
+            height: 55px;
+            bottom: 20px;
+            left: 20px;
+            opacity: 0.5;
+        }
+
+        .star-3 {
+            width: 40px;
+            height: 40px;
+            top: 10px;
+            left: 30px;
+            opacity: 0.3;
+        }
+
+        .gift-card__logo-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 54px;
+            height: 54px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-weight: 900;
+            font-size: 9px;
+            text-align: center;
+            line-height: 1.2;
+            color: #1a1a1a;
+            padding: 4px;
+        }
+
+            .gift-card__logo-badge .bird-icon {
+                font-size: 18px;
+                display: block;
+                margin-bottom: 2px;
+            }
+
+        .gift-card__content {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            text-align: right;
+        }
+
+        .gift-card__title {
+            color: white;
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-bottom: 2px;
+        }
+
+        .gift-card__brand {
+            color: var(--gold);
+            font-weight: 900;
+            font-size: 26px;
+            letter-spacing: 2px;
+            line-height: 1;
+            text-shadow: 0 2px 10px rgba(201,168,76,0.4);
+        }
+
+        .gift-card__amount {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ── Main Card ── */
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            margin: 0 16px;
+            padding: 24px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            animation: slideUp 0.5s ease 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Balance Section ── */
+        .balance-section {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .balance-label {
+            font-size: 16px;
+            color: var(--dark);
+        }
+
+        .balance-amount {
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .balance-expiry {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* ── Redeem Button ── */
+        .redeem-section {
+            text-align: center;
+            padding: 8px 0 16px;
+        }
+
+        .btn-redeem {
+            background: linear-gradient(135deg, var(--hot-pink), #c9186e);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 48px;
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Heebo', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 20px rgba(233,30,140,0.35);
+            letter-spacing: 0.5px;
+        }
+
+            .btn-redeem:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 28px rgba(233,30,140,0.45);
+                background: linear-gradient(135deg, #f02494, #d91a75);
+            }
+
+            .btn-redeem:active {
+                transform: translateY(0);
+            }
+
+        .self-redeem-link {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+            .self-redeem-link a {
+                color: var(--hot-pink);
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .self-redeem-link a:hover {
+                    text-decoration: underline;
+                }
+
+        /* Code reveal popup */
+        .code-popup {
+            display: none;
+            background: var(--light-gray);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 14px;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+            .code-popup.active {
+                display: block;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .code-popup__label {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 6px;
+        }
+
+        .code-popup__number {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
+
+            .copy-btn:hover {
+                transform: scale(1.2);
+            }
+
+        .copy-success {
+            font-size: 11px;
+            color: #27ae60;
+            margin-top: 4px;
+            display: none;
+        }
+
+            .copy-success.show {
+                display: block;
+            }
+
+        .code-popup__timer {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 8px;
+        }
+
+        .timer-text {
+            color: var(--hot-pink);
+            font-weight: 700;
+        }
+
+        /* ── Separator ── */
+        .separator {
+            height: 1px;
+            background: var(--border);
+            margin: 20px 0;
+        }
+
+        /* ── Where to redeem ── */
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            text-align: right;
+            margin-bottom: 14px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--light-gray);
+            border-radius: 30px;
+            padding: 10px 16px;
+            gap: 8px;
+            margin-bottom: 16px;
+            border: 1.5px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+            .search-bar:focus-within {
+                border-color: var(--hot-pink);
+                background: white;
+            }
+
+            .search-bar input {
+                border: none;
+                background: none;
+                font-family: 'Heebo', sans-serif;
+                font-size: 14px;
+                direction: rtl;
+                width: 100%;
+                outline: none;
+                color: var(--dark);
+            }
+
+                .search-bar input::placeholder {
+                    color: #aaa;
+                }
+
+        .search-icon {
+            font-size: 16px;
+            color: #aaa;
+            flex-shrink: 0;
+        }
+
+        .brands-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .all-brands-link {
+            color: var(--hot-pink);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .all-brands-link:hover {
+                text-decoration: underline;
+            }
+
+        /* Brands carousel */
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 10px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 4px 0;
+        }
+
+        .brand-item {
+            flex-shrink: 0;
+            width: 110px;
+            height: 80px;
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+            .brand-item:hover {
+                border-color: var(--hot-pink);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(233,30,140,0.12);
+            }
+
+            .brand-item img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+
+            .brand-item.more-btn {
+                background: var(--light-gray);
+                flex-direction: column;
+                gap: 4px;
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--hot-pink);
+                border-style: dashed;
+            }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+            .carousel-btn:hover {
+                background: var(--hot-pink);
+                color: white;
+                border-color: var(--hot-pink);
+            }
+
+            .carousel-btn.prev {
+                right: -12px;
+            }
+
+            .carousel-btn.next {
+                left: -12px;
+            }
+
+        .online-only-link {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+            .online-only-link a {
+                color: var(--hot-pink);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+        /* ── Greeting Card ── */
+        .greeting-card {
+            background: linear-gradient(135deg, #fff9f9, #fff0f0);
+            border: 1.5px solid #f8d7d7;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+            .greeting-card:hover {
+                border-color: var(--hot-pink);
+                box-shadow: 0 4px 16px rgba(233,30,140,0.1);
+            }
+
+        .greeting-card__content {
+            flex: 1;
+            text-align: right;
+        }
+
+        .greeting-card__from {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+
+            .greeting-card__from strong {
+                color: var(--dark);
+            }
+
+        .greeting-card__msg {
+            font-size: 14px;
+            color: var(--dark);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .greeting-card__view {
+            font-size: 12px;
+            color: var(--hot-pink);
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        .greeting-card__emoji {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .greeting-card__arrow {
+            color: #ccc;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* ── Thank You ── */
+        .thank-you-btn {
+            width: 100%;
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            color: var(--dark);
+        }
+
+            .thank-you-btn:hover {
+                border-color: var(--hot-pink);
+                color: var(--hot-pink);
+                background: #fff9fb;
+            }
+
+        .heart-icon {
+            font-size: 18px;
+        }
+
+        /* ── Accordions ── */
+        .accordion {
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .accordion__header {
+            background: white;
+            border: none;
+            width: 100%;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            direction: rtl;
+            transition: background 0.2s;
+        }
+
+            .accordion__header:hover {
+                background: var(--light-gray);
+            }
+
+        .accordion__icon {
+            font-size: 12px;
+            color: var(--gray);
+            transition: transform 0.3s;
+        }
+
+        .accordion.open .accordion__icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion__body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: white;
+        }
+
+        .accordion.open .accordion__body {
+            max-height: 400px;
+        }
+
+        .accordion__body-inner {
+            padding: 4px 18px 18px;
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* ── App Banner ── */
+        .app-banner {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin: 0 16px;
+            animation: slideUp 0.5s ease 0.4s both;
+        }
+
+        .app-banner__title {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+            .app-banner__title strong {
+                color: var(--gold);
+            }
+
+        .app-banner__desc {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .app-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .app-btn {
+            background: white;
+            color: var(--dark);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Heebo', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+            .app-btn:hover {
+                background: var(--gold);
+                transform: translateY(-1px);
+            }
+
+        /* ── Customer Service ── */
+        .customer-service {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 0 16px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            animation: slideUp 0.5s ease 0.5s both;
+        }
+
+        .customer-service__title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .customer-service__info {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+            .customer-service__info a {
+                color: var(--hot-pink);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+        /* ── CTA Banner ── */
+        .cta-section {
+            margin: 0 16px;
+            animation: slideUp 0.5s ease 0.6s both;
+        }
+
+        .btn-cta {
+            width: 100%;
+            background: white;
+            border: 2px solid var(--dark);
+            border-radius: 30px;
+            padding: 14px 20px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.25s;
+            color: var(--dark);
+        }
+
+            .btn-cta:hover {
+                background: var(--dark);
+                color: white;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            }
+
+        /* ── Footer ── */
+        footer {
+            background: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 16px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            animation: slideUp 0.5s ease 0.7s both;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+            .footer-logo span {
+                color: var(--hot-pink);
+            }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+            .footer-links a {
+                color: var(--gray);
+                text-decoration: none;
+                font-size: 18px;
+                transition: color 0.2s;
+            }
+
+                .footer-links a:hover {
+                    color: var(--hot-pink);
+                }
+
+        .footer-copy {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 11px;
+            color: #bbb;
+            padding: 12px 20px;
+            line-height: 1.6;
+        }
+
+        /* ── Save button ── */
+        .save-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+            z-index: 100;
+            transition: all 0.2s;
+            animation: slideInRight 0.5s ease 0.8s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .save-btn:hover {
+            background: var(--hot-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233,30,140,0.3);
+        }
+
+        /* Gap utility */
+        .gap {
+            height: 14px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-80px);
+            background: #27ae60;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 999;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+            .toast.show {
+                transform: translateX(-50%) translateY(0);
+            }
+
+        @media (max-width: 480px) {
+            .page-wrapper {
+                padding: 12px 0 30px;
+            }
+
+            .main-card {
+                margin: 0 10px;
+                padding: 18px;
+            }
+
+            .gift-card {
+                width: 270px;
+                height: 170px;
+            }
+
+            .gift-card__brand {
+                font-size: 22px;
+            }
+        }
+
+        /* ── Video Overlay ── */
+        .video-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95); /* Dark background to frame the video */
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            /* Start zoomed out for the pop effect */
+            transform: scale(0.3);
+            /* Bouncy spring transition */
+            transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+            .video-overlay.active {
+                opacity: 1;
+                pointer-events: auto;
+                transform: scale(1);
+            }
+
+            .video-overlay video {
+                width: 100%;
+                height: 100%;
+                object-fit: contain; /* Contain ensures nothing gets cut off */
+            }
+
+        .close-video-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 30px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10000;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+            .close-video-btn:hover {
+                background: rgba(233, 30, 140, 0.9);
+                transform: scale(1.1);
+            }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast">✓ הקוד הועתק ללוח</div>
+
+    <button class="save-btn" onclick="savePDF()">
+        🎁 לשמירת המתנה
+    </button>
+
+    <div class="page-wrapper">
+
+        <div class="gift-card-wrapper">
+            <div class="gift-card" onclick="flipCard()">
+                <div class="gift-card__stars">
+                    <div class="star star-1"></div>
+                    <div class="star star-2"></div>
+                    <div class="star star-3"></div>
+                </div>
+                <div class="gift-card__logo-badge">
+                    <span class="bird-icon">🐦</span>
+                    BUYME ALL
+                </div>
+                <div class="gift-card__content">
+                    <div class="gift-card__title">BUYME ALL – מגוון אדיר במתנה אחת</div>
+                    <div class="gift-card__brand">BUYME<br>ALL</div>
+                    <div class="gift-card__amount">₪100</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-card">
+
+            <div class="balance-section">
+                <div class="balance-label">יתרה למימוש <span class="balance-amount">₪100</span></div>
+                <div class="balance-expiry">בתוקף עד 21.04.2031</div>
+            </div>
+
+            <div class="redeem-section">
+                <button class="btn-redeem" onclick="toggleCode()">להצגת קוד המימוש</button>
+
+                <div class="code-popup" id="codePopup">
+                    <div class="code-popup__label">קוד שובר</div>
+                    <div class="code-popup__number">
+                        9376-1186-4382-3930
+                        <button class="copy-btn" onclick="copyCode()" title="העתק קוד">📋</button>
+                    </div>
+                    <div class="copy-success" id="copySuccess">✓ הועתק!</div>
+                    <div class="code-popup__timer">
+                        הקוד חד פעמי וניתן למימוש תוך: <span class="timer-text" id="timerDisplay">05:00</span> דקות
+                    </div>
+                </div>
+
+                <div class="self-redeem-link">
+                    ❓ <a href="#" onclick="return false;">אני בבית העסק ורוצה לממש בעצמי</a>
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="section-title">איפה אפשר לממש</div>
+
+            <div class="brands-header">
+                <a href="#" class="all-brands-link" onclick="return false;">לכל בתי העסק</a>
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="חיפוש בית עסק" id="brandSearch" oninput="filterBrands()">
+                </div>
+            </div>
+
+            <div class="carousel-wrapper">
+                <button class="carousel-btn prev" onclick="slideCarousel(1)">&#8250;</button>
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="brand-item" data-name="ישרוטל">
+                        <img src="https://buyme.co.il/files/siteNewLogo17574144.jpg?v=1771832865" alt="ישרוטל" onerror="this.parentNode.innerHTML='<span style=font-weight:800;font-size:11px;text-align:center;color:#333>ישרוטל</span>'">
+                    </div>
+                    <div class="brand-item" data-name="עגליס">
+                        <img src="https://buyme.co.il/files/siteNewLogo17573606.jpg?v=1774949584" alt="עגליס" onerror="this.parentNode.innerHTML='<span style=font-weight:800;font-size:11px;text-align:center;color:#e91e8c>עגליס</span>'">
+                    </div>
+                    <div class="brand-item" data-name="ליאור">
+                        <img src="https://buyme.co.il/files/siteNewLogo17573876.jpg?v=1774518327" alt="ליאור" onerror="this.parentNode.innerHTML='<span style=font-weight:800;font-size:11px;text-align:center;color:#333>ליאור</span>'">
+                    </div>
+                    <div class="brand-item" data-name="MOSHIK">
+                        <img src="https://buyme.co.il/files/siteNewLogo17574227.jpg?v=1774948785" alt="MOSHIK" onerror="this.parentNode.innerHTML='<span style=font-weight:800;font-size:11px;text-align:center;color:#333>&MOSHIK</span>'">
+                    </div>
+                    <div class="brand-item" data-name="adidas">
+                        <img src="https://buyme.co.il/files/siteNewLogo2208.jpg?v=1774949869" alt="adidas" onerror="this.parentNode.innerHTML='<span style=font-weight:900;font-size:13px;letter-spacing:-1px>adidas</span>'">
+                    </div>
+                    <div class="brand-item" data-name="MAC">
+                        <img src="https://buyme.co.il/files/siteNewLogo8180660.jpg?v=1774949104" alt="MAC" onerror="this.parentNode.innerHTML='<span style=font-weight:900;font-size:15px>MAC</span>'">
+                    </div>
+                    <div class="brand-item" data-name="קפה גרג">
+                        <img src="https://buyme.co.il/files/siteNewLogo351980.jpg?v=1774996486" alt="קפה גרג" onerror="this.parentNode.innerHTML='<span style=font-weight:800;font-size:11px;text-align:center>קפה גרג</span>'">
+                    </div>
+                    <div class="brand-item" data-name="CASTRO">
+                        <img src="https://buyme.co.il/files/siteNewLogo4747.jpg?v=1767252576" alt="CASTRO" onerror="this.parentNode.innerHTML='<span style=font-weight:900;font-size:13px>CASTRO</span>'">
+                    </div>
+                    <div class="brand-item" data-name="3030">
+                        <img src="https://buyme.co.il/files/siteNewLogo17573513.jpg?v=1765280483" alt="3030" onerror="this.parentNode.innerHTML='<span style=font-weight:900;font-size:15px>3030</span>'">
+                    </div>
+                    <div class="brand-item" data-name="מילק אנד האני">
+                        <img src="https://buyme.co.il/files/siteNewLogo6301805.jpg?v=1767171685" alt="מילק אנד האני" onerror="this.parentNode.innerHTML='<span style=font-weight:700;font-size:10px;text-align:center>מילק אנד האני</span>'">
+                    </div>
+                    <div class="brand-item more-btn" onclick="window.open('https://buyme.co.il/brands/13438757','_blank')">
+                        ← הצג עוד
+                    </div>
+                </div>
+                <button class="carousel-btn next" onclick="slideCarousel(-1)">&#8249;</button>
+            </div>
+
+            <div class="online-only-link">
+                הצג רק בתי עסק שאפשר <a href="https://buyme.co.il/brands/13438757?online=true" target="_blank">לממש בהם את המתנה Online</a>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="greeting-card" onclick="showGreeting()">
+                <span class="greeting-card__arrow">›</span>
+                <div class="greeting-card__content">
+                    <div class="greeting-card__from">קיבלת מתנה מ<strong>Lev</strong></div>
+                    <div class="greeting-card__msg">לגרועיסטית, מזל טוב על 18 - הבאתי לך כי את הבאת לי. לא כי רציתי.</div>
+                    <div class="greeting-card__view">לצפייה בברכה ←</div>
+                </div>
+                <div class="greeting-card__emoji">🧁</div>
+            </div>
+
+            <div class="gap"></div>
+
+            <button class="thank-you-btn" onclick="thankYou()">
+                <span class="heart-icon">🤍</span>
+                כאן אומרים תודה
+            </button>
+
+            <div class="separator"></div>
+
+            <div class="accordion" id="acc1">
+                <button class="accordion__header" onclick="toggleAccordion('acc1')">
+                    <span class="accordion__icon">▼</span>
+                    אודות
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        <p>עם BUYME ALL באפשרותך לבחור ליהנות מחוויות ומתנות מדהימות ב-BUYME!</p>
+                        <br>
+                        <p>להתפנק במסעדה טובה, ללכת לסדנה מגניבה, לחדש את המלתחה, לצאת לחופשה או בכלל לבחור מתנות שמגיעות עד הבית - והכי כיף, באפשרותך ליהנות בכמה חנויות ועסקים שונים עד לניצול מלא של המתנה 🙂</p>
+                        <br>
+                        <p>📞 <a href="tel:03-3737117" style="color:var(--hot-pink);font-weight:700;">03-3737117</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion" id="acc2">
+                <button class="accordion__header" onclick="toggleAccordion('acc2')">
+                    <span class="accordion__icon">▼</span>
+                    פרטים נוספים
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        את השובר ניתן לממש במגוון אדיר של עסקים המופיעים תחת "בתי עסק מכבדים" בשובר. רשימת המכבדים עשויה להשתנות מעת לעת ולכן יש להתעדכן ברשימה טרם מימוש השובר. למימוש, יש למסור את קוד השובר המוצג על גבי SMS/מייל/דף מודפס שברשותך.
+                    </div>
+                </div>
+            </div>
+
+        </div><div class="gap"></div>
+
+        <div class="app-banner">
+            <div class="app-banner__title">יש לך כבר את <strong>האפליקציה</strong> החדשה שלנו?</div>
+            <div class="app-banner__desc">כל המתנות שלך במקום אחד, מימוש נוח בטירוף, ועוד מלא הפתעות</div>
+            <div class="app-buttons">
+                <button class="app-btn">▶ Google Play</button>
+                <button class="app-btn">🍎 App Store</button>
+            </div>
+        </div>
+
+        <div class="gap"></div>
+
+        <div class="customer-service">
+            <div class="customer-service__title">רוצה לדבר איתנו?</div>
+            <div class="customer-service__info">
+                שירות הלקוחות שלנו זמין בשבילך ויענה לכל שאלה במייל:
+                <a href="mailto:support@buyme.co.il">support@buyme.co.il</a>
+                או בטלפון: <a href="tel:+97233737117"><strong>03-3737117</strong></a>
+                <br>
+                שעות פעילות: <strong>א'-ה' 9:00-21:00, ו' 9:00-13:00</strong>
+            </div>
+        </div>
+
+        <div class="gap"></div>
+
+        <div class="cta-section">
+            <button class="btn-cta" onclick="window.open('https://buyme.co.il','_blank')">
+                גם אני רוצה לשמח מישהו עם גיפט קארד ←
+            </button>
+        </div>
+
+        <div class="gap"></div>
+
+        <footer>
+            <div class="footer-logo">BUY<span>ME</span></div>
+            <div class="footer-copy">© BUYME 2026</div>
+            <div class="footer-links">
+                <a href="mailto:support@buyme.co.il" title="מייל">✉</a>
+                <a href="tel:033737117" title="טלפון">📞</a>
+                <a href="https://www.facebook.com/buyme.co.il/" target="_blank" title="פייסבוק">f</a>
+                <a href="https://www.instagram.com/buyme.co.il/" target="_blank" title="אינסטגרם">📷</a>
+            </div>
+        </footer>
+
+        <div class="disclaimer">
+            ביי מי טכנולוגיות בע"מ פטורה מרישיון לפי חוק הסדרת העיסוק בשירותי תשלום וייזום תשלום, התשפ"ג 2023
+        </div>
+
+    </div><div id="greetingModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:340px;width:90%;text-align:center;animation:fadeIn 0.3s ease;position:relative;">
+            <button onclick="document.getElementById('greetingModal').style.display='none'" style="position:absolute;top:12px;left:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#999;">×</button>
+            <div style="font-size:50px;margin-bottom:14px;">🎂</div>
+            <div style="font-size:13px;color:#999;margin-bottom:8px;">ברכה מ Lev</div>
+            <div style="font-size:17px;font-weight:600;line-height:1.6;color:#1a1a1a;">לגרועיסטית, מזל טוב על 18 - הבאתי לך כי את הבאת לי. לא כי רציתי.. 🎉</div>
+        </div>
+    </div>
+
+    <script>
+        // ── Carousel ──
+        let carouselPos = 0;
+        const itemWidth = 120; // item width + gap
+        const track = document.getElementById('carouselTrack');
+
+        function slideCarousel(dir) {
+            const items = track.children.length;
+            const visible = Math.floor(track.parentElement.offsetWidth / itemWidth);
+            const maxSlide = Math.max(0, items - visible);
+            carouselPos = Math.max(0, Math.min(carouselPos + dir, maxSlide));
+            track.style.transform = `translateX(${carouselPos * itemWidth * (document.dir === 'rtl' ? 1 : -1)}px)`;
+        }
+
+        // ── Code Popup & Timer ──
+        let timerInterval;
+        let timerRunning = false;
+        let secondsLeft = 300;
+        let codeShown = false;
+
+        function toggleCode() {
+            const popup = document.getElementById('codePopup');
+            codeShown = !codeShown;
+            popup.classList.toggle('active', codeShown);
+
+            if (codeShown && !timerRunning) startTimer();
+
+            const btn = document.querySelector('.btn-redeem');
+            btn.textContent = codeShown ? 'הסתר קוד' : 'להצגת קוד המימוש';
+
+            // NEW: Play the video animation if the code is being shown
+            if (codeShown) {
+                const overlay = document.getElementById('videoOverlay');
+                const vid = document.getElementById('myVideo');
+                overlay.classList.add('active');
+                vid.play();
+            }
+        }
+        function startTimer() {
+            timerRunning = true;
+            timerInterval = setInterval(() => {
+                secondsLeft--;
+                const m = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+                const s = String(secondsLeft % 60).padStart(2, '0');
+                document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+                if (secondsLeft <= 0) { clearInterval(timerInterval); timerRunning = false; }
+            }, 1000);
+        }
+
+        // ── Copy Code ──
+        function copyCode() {
+            navigator.clipboard.writeText('9376-1186-4382-3930').then(() => {
+                document.getElementById('copySuccess').classList.add('show');
+                showToast('✓ הקוד הועתק ללוח');
+                setTimeout(() => document.getElementById('copySuccess').classList.remove('show'), 2000);
+            });
+        }
+
+        // ── Toast ──
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // ── Accordions ──
+        function toggleAccordion(id) {
+            const acc = document.getElementById(id);
+            acc.classList.toggle('open');
+        }
+
+        // ── Greeting Modal ──
+        function showGreeting() {
+            const m = document.getElementById('greetingModal');
+            m.style.display = 'flex';
+        }
+
+        // ── Thank You ──
+        function thankYou() {
+            showToast('💖 תודה נשלחה!');
+            const btn = document.querySelector('.thank-you-btn');
+            btn.innerHTML = '❤️ תודה נשלחה!';
+            btn.style.borderColor = 'var(--hot-pink)';
+            btn.style.color = 'var(--hot-pink)';
+        }
+
+        // ── Brand Search ──
+        function filterBrands() {
+            const q = document.getElementById('brandSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.brand-item[data-name]');
+            items.forEach(item => {
+                item.style.display = item.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+            });
+        }
+
+        // ── Card hover tilt ──
+        const card = document.querySelector('.gift-card');
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(600px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+
+        // ── Save ──
+        function savePDF() {
+            window.print();
+        }
+
+        // ── Close modal on backdrop click ──
+        document.getElementById('greetingModal').addEventListener('click', function (e) {
+            if (e.target === this) this.style.display = 'none';
+        });
+
+        // ── Close Video ──
+        function closeVideo() {
+            const overlay = document.getElementById('videoOverlay');
+            const vid = document.getElementById('myVideo');
+            overlay.classList.remove('active');
+            vid.pause();
+            vid.currentTime = 0; // Resets the video to the beginning
+        }
+    </script>
+
+    <div id="videoOverlay" class="video-overlay">
+        <button class="close-video-btn" onclick="closeVideo()">×</button>
+        <video id="myVideo" loop playsinline preload="auto">
+            <source src="cat.mp4" type="video/mp4">
+        </video>
+    </div>
+</body>
+</html>
